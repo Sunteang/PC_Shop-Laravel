@@ -45,7 +45,7 @@
             <div class="contact-container bg-white d-flex flex-wrap mb-24 px-2 py-3">
                 <div class="contact-information pr-2">
                     <p class="contact-card pl-3 pt-2"><i class="fas fa-map-marker-alt i-style pr-2" style="color: #253c95;"></i><span>No. 24, St. 562, Sangkat Boeung kak I, Khan Toul Kork, Phnom Penh, Cambodia</span></p>
-                    <p class="contact-card pl-3"><i class="fa-solid fa-square-phone pr-2" style="color: #253c95;"></i><span>(+855) 88 888 999 | (+855) 12 112 123</span></p>
+                    <p class="contact-card pl-3"><i class="fa-solid fa-square-phone pr-2" style="color: #253c95;"></i><span>(+855) 88 888 999 | (+855) 12 112 123 | (+855) 96 88 44 256</span></p>
                     <p class="contact-card pl-3"><i class="fab fa-telegram i-style pr-2" style="color: #253c95;"></i><span><a href="https://t.me/many_sin" target="_blank" class="no-underline text-gray-800">Telegram Channel</a></span></p>
                     <p class="contact-card pl-3"><i class="fab fa-facebook i-style pr-2" style="color: #253c95;"></i><span><a href="https://www.facebook.com/" target="_blank" class="no-underline text-gray-800">Facebook</a></span></p>
                     <p class="contact-card pl-3"><i class="fas fa-envelope i-style pr-2" style="color: #253c95;"></i><span><a href="mailto: manysin43@gmail.com" target="_blank" class="no-underline text-gray-800">info.istad@gmail.com</a></span></p>

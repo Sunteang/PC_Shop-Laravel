@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Computer extends Model
 {
-    protected $table = 'computer';
+    protected $table = 'tblcomputer';
     protected $primaryKey = 'id';
     protected $fillable = [
         'name',
         'description',
         'price',
         'image',
+        'category',
     ];
     use HasFactory;
 }

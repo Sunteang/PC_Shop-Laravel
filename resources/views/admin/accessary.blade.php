@@ -3,180 +3,205 @@
 @section('content')
 <div class="p-4 sm:ml-64">
     <div class="p-4 rounded-lg mt-14">
-        <div class="grid grid-cols-3 gap-4 mb-4">
-            <div class="flex items-center justify-center h-auto rounded bg-purple-200">
-                <i class="fa-solid fa-accessary fa-2xl text-blue-600 me-8"></i>
-                <p class="text-2xl text-gray-900 font-bold mb-0">
-                    @php
-                    $count = 0;
-                    @endphp
-                    @foreach($accessary as $key => $accessarys)
-                    @php
-                    $count++;
-                    @endphp
-                    @endforeach
-                    Total : {{ $count }}
-                </p>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div class="flex items-center justify-between p-4 bg-blue-200 rounded shadow">
+                <div>
+                    <p class="text-sm text-gray-600">Total Computers</p>
+                    <p class="text-2xl font-bold text-gray-900">{{ $totalComputers }}</p>
+                </div>
+                <i class="fa-solid fa-computer text-blue-600 text-3xl"></i>
             </div>
-            <div class="flex items-center justify-center h-24 rounded bg-pink-200 ">
-                <p class="text-2xl text-gray-900 font-bold">
-                    Accessary
-                </p>
+            <div class="flex items-center justify-between p-4 bg-yellow-200 rounded shadow">
+                <div>
+                    <p class="text-sm text-gray-600">Total Accessories</p>
+                    <p class="text-2xl font-bold text-gray-900">{{ count($accessary) }}</p>
+                </div>
+                <i class="fa-solid fa-microchip text-yellow-600 text-3xl"></i>
             </div>
-            <div class="flex items-center justify-center h-24 rounded bg-green-200 font-bold">
-                <p class="text-2xl text-gray-900 ">
-                    Service
-                </p>
+            <div class="flex items-center justify-between p-4 bg-green-200 rounded shadow">
+                <div>
+                    <p class="text-sm text-gray-600">Total Repair Services</p>
+                    <p class="text-2xl font-bold text-gray-900">{{ $totalServices }}</p>
+                </div>
+                <i class="fa-solid fa-cogs text-green-600 text-3xl"></i>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-6">
-                <!-- Modal toggle -->
-                <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="block text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mt-5" type="button">
-                    <p class="mb-0 pb-0.5">
-                        Insert accessary
-                    </p>
-                </button>
-            </div>
-            <div class="col-md-6 d-flex justify-content-end align-items-end">
-                <form method="GET" action="{{ url('/search') }}" class="d-flex">
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="search" placeholder="Search...">
-                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <!-- Insert Button + Search -->
+        <div class="flex flex-col md:flex-row md:justify-between items-center mb-4">
+            <button data-modal-target="crud-modal" data-modal-toggle="crud-modal"
+                class="mb-2 md:mb-0 text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">
+                Insert Accessory
+            </button>
+            <form method="GET" action="{{ url('/search') }}" class="w-full md:w-auto">
+                <div class="flex">
+                    <input type="text" name="search" placeholder="Search..." class="rounded-l-lg p-2 border border-gray-300 w-full md:w-64" />
+                    <button type="submit" class="bg-blue-600 text-white px-4 rounded-r-lg hover:bg-blue-700">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </div>
+                @if($accessary->isEmpty())
+                <tr>
+                    <td colspan="5" class="text-center py-4 text-gray-500">No accessories found.</td>
+                </tr>
+                @endif
+            </form>
+        </div>
+
+        <!-- Modal -->
+        <div id="crud-modal" tabindex="-1" aria-hidden="true"
+            class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white rounded-lg shadow w-full max-w-xl p-6">
+                <div class="flex justify-between items-center border-b pb-3 mb-4">
+                    <h3 class="text-lg font-semibold text-gray-800">Insert New Accessory</h3>
+                    <button type="button" class="text-gray-500 hover:text-red-600" data-modal-toggle="crud-modal">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+
+                <form method="POST" action="{{ route('accessary.store') }}">
+                    @csrf
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="col-span-2">
+                            <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                            <input type="text" name="name" id="name" class="w-full mt-1 p-2 border rounded-lg" required>
+                        </div>
+                        <div class="col-span-2">
+                            <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                            <input type="number" name="price" id="price" class="w-full mt-1 p-2 border rounded-lg" required>
+                        </div>
+                        <div class="col-span-2">
+                            <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+                            <select name="category" id="category" required
+                                class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="" disabled selected>Select Category</option>
+                                <option value="Mouse">Mouse</option>
+                                <option value="Keyboard">Keyboard</option>
+                                <option value="Power Adapter">Power Adapter</option>
+                                <option value="Speakers">Speakers</option>
+                                <option value="USB">USB</option>
+                                <option value="MousePad">MousePad</option>
+                                <option value="Other">Other</option>
+                            </select>
+
+                        </div>
+
+                        <div class="col-span-2">
+                            <label for="image" class="block text-sm font-medium text-gray-700">Image URL</label>
+                            <input type="url" name="image" id="image" class="w-full mt-1 p-2 border rounded-lg" required>
+                        </div>
+                        <div class="col-span-2">
+                            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                            <textarea name="description" id="description" rows="3" class="w-full mt-1 p-2 border rounded-lg" required></textarea>
+                        </div>
                     </div>
+                    <button type="submit" class="mt-5 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Submit</button>
                 </form>
             </div>
-
-            <!-- Main modal -->
-            <div id="crud-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                <div class="relative p-4 w-full max-w-lg max-h-full">
-                    <!-- Modal content -->
-                    <div class="relative bg-white rounded-lg shadow">
-                        <!-- Modal header -->
-                        <div class="flex items-center justify-between p-3 md:p-5 border-b rounded-t bg-blue-800">
-                            <h3 class="text-lg font-semibold text-white text-center mb-0">
-                                Insert New accessary
-                            </h3>
-                            <button type="button" class="text-white bg-transparent hover:text-red-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-toggle="crud-modal">
-                                <i class="fa-solid fa-xmark"></i>
-                                <span class="sr-only">Close modal</span>
-                            </button>
-                        </div>
-                        <!-- Modal body -->
-                        <form class="p-4 md:p-5" method="POST" action="{{ route('accessary.store') }}">
-                            @csrf
-                            <div class="grid gap-4 mb-4 grid-cols-2">
-                                <div class="col-span-2 sm:col-span-1">
-                                    <label for="id" class="block mb-2 text-sm font-medium text-gray-900">ID</label>
-                                    <input type="text" name="id" id="id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Product id" required="">
-                                </div>
-                                <div class="col-span-2 sm:col-span-1">
-                                    <label for="price" class="block mb-2 text-sm font-medium text-gray-900">Price</label>
-                                    <input type="text" name="price" id="price" class="bg-blue-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Product price" required="">
-                                </div>
-                                <div class="col-span-2">
-                                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
-                                    <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Type product name" required="">
-                                </div>
-                                <div class="col-span-2">
-                                    <label for="image" class="block mb-2 text-sm font-medium text-gray-900">Image</label>
-                                    <input type="text" name="image" id="image" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600" placeholder="Type product image" required="">
-                                </div>
-                                <div class="col-span-2">
-                                    <label for="description" class="block mb-2 text-sm font-medium text-gray-900">Description</label>
-                                    <input type="text" name="description" id="description" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600" placeholder="Type product description" required="">
-                                </div>
-                            </div>
-                            <div class="col-md-12 mt-4 pt-2 mb-2">
-                                <button type="submit" class="btn btn-primary w-full py-2">Submit</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
         </div>
-        <hr>
 
-        <div class="mt-3">
-            <div class="relative sm:rounded-lg">
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
-                    <thead class="text-xs text-blue-900 uppercase" style="font-size: 16px;">
-                        <tr>
-                            <th scope="col" class="px-16 py-3">
-                                <span class="col">Image</span>
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                accessary name
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Price
-                            </th>
-                            <th scope="col" class="px-6 py-3">
-                                Edit
-                            </th>
-                            <th scope="col" class="px-6 py-3">
+        <!-- Accessories Table -->
+        <div class="overflow-x-auto mt-8 bg-white rounded-lg shadow">
+            <table class="w-full text-sm text-left text-gray-700">
+                <thead class="text-xs uppercase bg-blue-100 text-blue-900">
+                    <tr>
+                        <th class="px-6 py-3 text-left">Image</th>
+                        <th class="px-6 py-3 text-left">Name</th>
+                        <th class="px-6 py-3 text-left">Price</th>
+                        <th class="px-6 py-3 text-left">Edit</th>
+                        <th class="px-6 py-3 text-left">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($accessary as $item)
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="px-6 py-3">
+                            <img src="{{ $item->image }}" alt="{{ $item->name }}" class="w-20 h-20 object-cover rounded">
+                        </td>
+                        <td class="px-6 py-3 font-medium text-gray-900">{{ $item->name }}</td>
+                        <td class="px-6 py-3 font-semibold">${{ number_format($item->price, 2) }}</td>
+                        <td class="px-6 py-3">
+                            <a href="{{ route('accessary.edit', $item->id) }}">
+                                <button class="text-white bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded-md">
+                                    Edit
+                                </button>
+                            </a>
+                        </td>
+                        <td class="px-6 py-3">
+                            <!-- Delete button triggers modal -->
+                            <button
+                                class="text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded-md delete-btn"
+                                data-id="{{ $item->id }}"
+                                data-name="{{ $item->name }}">
                                 Delete
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach( $accessary as $accessary )
-                        <tr class="bg-white border-b hover:bg-gray-50 w-100">
-                            <td class="p-4">
-                                <img src="{{ $accessary->image }}" class="w-16 md:w-32 max-w-full max-h-full rounded-md" alt="accessary Image">
-                            </td>
-                            <td class="px-6 py-4 font-bold text-gray-900 ">
-                                {{ $accessary->name }}
-                            </td>
-                            <td class="px-6 py-4 font-semibold text-gray-900 ">
-                                ${{ $accessary->price }}
-                            </td>
-                            <td class="px-6 py-4 ">
-                                <a href="{{ route('accessary.edit', $accessary->id)}}">
-                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                </a>
-                            </td>
-                            <td class="px-6 py-4 ">
-                                <form method="POST" action="{{ route('accessary.destroy', $accessary->id)}}">
+                            </button>
+                        </td>
+                    </tr>
+                    @endforeach
+
+                    <!-- Delete Confirmation Modal -->
+                    <div id="delete-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                        <div class="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+                            <h2 class="text-lg font-semibold mb-4 text-gray-800">Confirm Delete</h2>
+                            <p class="mb-6 text-gray-600" id="delete-message">Are you sure you want to delete this accessory?</p>
+
+                            <div class="flex justify-end space-x-4">
+                                <button id="cancel-delete" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancel</button>
+                                <form id="delete-form" method="POST" action="">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Delete</button>
                                 </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const deleteButtons = document.querySelectorAll('.delete-btn');
+                            const modal = document.getElementById('delete-modal');
+                            const deleteForm = document.getElementById('delete-form');
+                            const cancelBtn = document.getElementById('cancel-delete');
+                            const deleteMessage = document.getElementById('delete-message');
+
+                            deleteButtons.forEach(button => {
+                                button.addEventListener('click', () => {
+                                    const itemId = button.getAttribute('data-id');
+                                    const itemName = button.getAttribute('data-name');
+
+                                    // Update the form action URL dynamically
+                                    deleteForm.action = `/dashboard-admin/accessary/${itemId}`; // adjust this if your route prefix differs
+
+                                    // Update the message with the accessory name
+                                    deleteMessage.textContent = `Are you sure you want to delete the accessory "${itemName}"?`;
+
+                                    // Show the modal
+                                    modal.classList.remove('hidden');
+                                });
+                            });
+
+                            cancelBtn.addEventListener('click', () => {
+                                modal.classList.add('hidden');
+                            });
+
+                            modal.addEventListener('click', (e) => {
+                                if (e.target === modal) {
+                                    modal.classList.add('hidden');
+                                }
+                            });
+                        });
+                    </script>
+
+                    <!-- No accessories found message -->
+                    @if($accessary->isEmpty())
+                    <tr>
+                        <td colspan="5" class="text-center py-4 text-gray-500">No accessories found.</td>
+                    </tr>
+                    @endif
+                </tbody>
+            </table>
         </div>
-
-
     </div>
 </div>
-
-
-
-
 @endsection
-
-@push('css')
-<style>
-    .form-area {
-        padding: 20px;
-        margin-top: 20px;
-        background-color: #b3e5fc;
-    }
-
-    .bi-trash-fill {
-        color: red;
-        font-size: 18px;
-    }
-
-    .bi-pencil {
-        color: green;
-        font-size: 18px;
-
-    }
-</style>
-@endpush

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Accessary;
 use Illuminate\Http\Request;
 
+use App\Models\Computer;
+use App\Models\RepairRequest;
+
 class AccessaryController extends Controller
 {
 
@@ -18,6 +21,9 @@ class AccessaryController extends Controller
     public function index()
     {
         $response['accessary'] = $this->accessary->all();
+        $response['totalComputers'] = Computer::count();
+        $response['totalServices'] = RepairRequest::count();
+
         return view('admin.accessary')->with($response);
     }
 
@@ -26,11 +32,17 @@ class AccessaryController extends Controller
     {
         $search = $request->input('search');
 
-        // Query to search in 'name' and 'description' columns
-        $accessary = Accessary::where('name', 'like', '%' . $search . '%')
-            ->get();
+        if (empty($search)) {
+            return redirect('dashboard-admin/accessary');
+        }
 
-        return view('admin.accessary', compact('accessary'));
+        $accessary = Accessary::where('name', 'like', '%' . $search . '%')->get();
+
+        return view('admin.accessary', [
+            'accessary' => $accessary,
+            'totalComputers' => Computer::count(),
+            'totalServices' => RepairRequest::count(),
+        ]);
     }
 
 
@@ -40,16 +52,16 @@ class AccessaryController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'id' => 'required|unique:accessary,id',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'category' => 'required|string|in:Mouse,Keyboard,Power Adapter,USB,MousePad,Other',
             'price' => 'required|string',
             'image' => 'nullable|string',
         ]);
 
         $this->accessary->create($validatedData);
 
-        return redirect('/accessary');
+        return redirect('/dashboard-admin/accessary');
     }
 
     /**
@@ -78,7 +90,7 @@ class AccessaryController extends Controller
         $accessary = $this->accessary->find($id);
 
         $accessary->update(array_merge($accessary->toArray(), $request->toArray()));
-        return redirect('accessary');
+        return redirect('dashboard-admin/accessary');
     }
 
     /**
@@ -89,6 +101,6 @@ class AccessaryController extends Controller
         $accessary = $this->accessary->find($id);
 
         $accessary->delete();
-        return redirect('/accessary');
+        return redirect('/dashboard-admin/accessary');
     }
 }

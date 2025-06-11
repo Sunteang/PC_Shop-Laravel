@@ -10,6 +10,8 @@
     <script src="https://kit.fontawesome.com/8012344db9.js" crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
 
+    <link rel="icon" href="{{ asset('images/logo.png') }}" type="image/png">
+
     @include('libraries.styles')
     <style>
         .top-social-links ul {
@@ -106,13 +108,16 @@
         </div>
 
         <div class="container">
-            <div class="row py-4">
-                <div class="col-lg-3 col-md-3 col-sm-6 col-12 d-flex align-items-center">
-                    <a href="{{ url('/home') }}" class="flex items-center no-underline">
-                        <img src="{{ asset('images/logo.png') }}" width="70" height="70" alt="Logo">
-                        <h2 class="mb-0 ms-4 mt-1.5 ps-2 font-bold text-blue-800" style="letter-spacing: 3px;">PCSHOP</h2>
+            <div class="row py-4 align-items-center">
+                <!-- Logo Column -->
+                <div class="col-lg-3 col-md-4 col-sm-6 col-12 d-flex align-items-center">
+                    <a href="{{ url('/home') }}" class="d-flex align-items-center text-decoration-none">
+                        <img src="{{ asset('images/logo.png') }}" width="60" height="60" alt="Logo">
+                        <h2 class="mb-0 ms-3 fw-bold text-blue-800" style="letter-spacing: 3px;">PCSHOP</h2>
                     </a>
                 </div>
+
+                <!-- Contact Info Column -->
                 <div class="col-lg-9 col-md-9 col-sm-6 col-12 d-lg-flex d-none align-items-center justify-content-end px-0">
                     <div class="header-contact-info top-social-links">
                         <ul class="list-unstyled mb-0 d-flex flex-wrap justify-content-start">
@@ -134,15 +139,39 @@
                                 <div class="iocn-holder"><i class="fa-solid fa-envelope"></i></div>
                                 <div class="text-holder ms-2">
                                     <h6 class="fw-bold mb-1">Mail Us</h6>
-                                    <p class="fs-sm text-black-50">manysin@gmail.com</p>
+                                    <p class="fs-sm text-black-50">pcshopcambodia@gmail.com</p>
                                 </div>
                             </li>
+                            <a href="{{ route('cart.index') }}" class="position-relative py-2 px-2 rounded text-gray-300 no-underline">
+                                <i class="fas fa-shopping-cart fa-lg"></i>
+
+                                @if($cartCount > 0)
+                                <span class="position-absolute top-2 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ $cartCount }}
+                                    <span class="visually-hidden">items in cart</span>
+                                </span>
+                                @endif
+                            </a>
+
+
                         </ul>
                     </div>
-                </div>
 
+                    <!-- Avatar Column -->
+                    <div class="col-lg-1 col-md-3 col-12 d-flex justify-content-end align-items-center mt-3 mt-md-0">
+                        <a href="{{ auth()->check() ? url('/account-info') : url('/login') }}">
+                            <button type="button"
+                                class="d-flex align-items-center justify-content-center bg-white p-1 rounded-circle border shadow-sm"
+                                style="width: 42px; height: 42px;">
+                                <img class="rounded-circle w-100 h-100 object-fit-cover"
+                                    src="{{ auth()->user()->profile_image ?? 'https://i.pinimg.com/736x/dc/09/08/dc0908fabd4cd245bfc1752cc4782a9d.jpg' }}"
+                                    alt="User photo">
+                            </button>
+                        </a>
+                    </div>
+
+                </div>
             </div>
-        </div>
         </div>
 
         <nav class="bg-slate-800 py-3 ">
@@ -165,7 +194,7 @@
                             <a href="{{url('/getaccessary')}}" class="block py-2 px-2 rounded text-gray-300 no-underline">Accessary</a>
                         </li>
                         <li>
-                            <a href="#" class="block py-2 px-2 rounded text-gray-300 no-underline">Repair Service</a>
+                            <a href="{{ route('repairservice') }}" class="block py-2 px-2 rounded text-gray-300 no-underline">Repair Service</a>
                         </li>
                         <li>
                             <a href="{{url('/contact')}}" class="block py-2 px-2 rounded text-gray-300 no-underline">Contact Us</a>
@@ -181,7 +210,7 @@
                             <li>
                                 @auth
                                 @if(Auth::user()->role == 'admin')
-                                <a href="{{ url('/admin') }}" class="block px-4 no-underline">Admin</a>
+                                <a href="{{ url('/dashboard-admin') }}" class="block px-4 no-underline">Admin</a>
                                 @else
                                 <a href="{{ url('/admin/login') }}" class="block px-4 no-underline">Admin</a>
                                 @endif
@@ -212,17 +241,17 @@
                         </div>
                     </a>
                     <h3 class="mb-0 mt-1.5 font-bold text-white" style="letter-spacing: 3px;">PCSHOP</h3>
-                    <p class="text-white mt-2 ms-4" style="letter-spacing: 3px;">© 2024</p>
+                    <p class="text-white mt-2 ms-4" style="letter-spacing: 3px;">© 2025</p>
                 </div>
 
                 <div class="col col-md-4">
                     <h5 class="text-blue-600 pb-3 font-bold uppercase" style="letter-spacing: 1.5px;">Menu</h5>
                     <ul class="nav flex-column">
                         <li class="nav-item mb-2"><a href="{{ url('/home') }}" class="nav-link p-0 text-white">Home</a></li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white">Computer</a></li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white">Service</a></li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white">Accessary</a></li>
-                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-white">Contact Us</a></li>
+                        <li class="nav-item mb-2"><a href="{{ route('computer.index') }}" class="nav-link p-0 text-white">Computer</a></li>
+                        <li class="nav-item mb-2"><a href="{{ url('/getaccessary') }}" class="nav-link p-0 text-white">Accessary</a></li>
+                        <li class="nav-item mb-2"><a href="{{ route('repairservice') }}" class="nav-link p-0 text-white">Service</a></li>
+                        <li class="nav-item mb-2"><a href="{{ url('/contact') }}" class="nav-link p-0 text-white">Contact Us</a></li>
                     </ul>
                 </div>
 

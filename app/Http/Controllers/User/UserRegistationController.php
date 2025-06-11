@@ -18,7 +18,10 @@ class UserRegistationController
         User::create([
             'name' => $input['name'],
             'email' => $input['email'],
-            'password' => Hash::make($input['password'])
+            'phone' => $input['phone'],
+            'password' => Hash::make($input['password']),
+            'address' => 'nullable|string|max:255',
+            'profile_image' => 'nullable|url|max:255',
 
         ]);
         return view('user.login');

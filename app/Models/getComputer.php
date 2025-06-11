@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class GetComputer extends Model
 {
-    protected $table = 'computer';
+    protected $table = 'tblcomputer';
     protected $primaryKey = 'id';
     protected $fillable = [
         'name',

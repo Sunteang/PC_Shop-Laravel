@@ -15,7 +15,11 @@
                     </div>
                     <div>
                         <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">Email</label>
-                        <input type="email" name="email" id="email" placeholder="nara12@gmail.com" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="name@company.com" required="">
+                        <input type="email" name="email" id="email" placeholder="example@gmail.com" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 " placeholder="name@company.com" required="">
+                    </div>
+                    <div>
+                        <label for="phone" class="block mb-2 text-sm font-medium text-gray-900">Phone Number</label>
+                        <input type="tel" name="phone" id="phone" placeholder="e.g. 0912345678" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required="">
                     </div>
                     <div class="mb-2">
                         <label for="password" class="block mb-2 text-sm font-medium text-gray-900 ">Password</label>

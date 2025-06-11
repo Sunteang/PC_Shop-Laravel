@@ -7,13 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Accessary extends Model
 {
-    protected $table = 'accessary';
+    protected $table = 'tblaccessary';
     protected $primaryKey = 'id';
-    protected $fillable = [
-        'name',
-        'description',
-        'price',
-        'image',
-    ];
+    protected $fillable = ['name', 'price', 'description', 'image', 'category'];
+
     use HasFactory;
 }

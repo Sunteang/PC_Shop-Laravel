@@ -25,6 +25,34 @@
 </style>
 
 <div class="container mt-12 pt-1 mb-24">
+    <form method="GET" action="{{ route('accessary.index') }}" class="mb-4 flex items-center gap-3" style="flex-wrap: nowrap;">
+        <input type="text" name="search"
+            value="{{ request('search') ?? '' }}"
+            placeholder="Search..."
+            class="px-3 py-2 border rounded flex-shrink-0 flex-grow-0 w-48" />
+
+        <select name="category" class="px-3 py-2 border rounded flex-shrink-0 flex-grow-0 w-48">
+            <option value="" {{ request('category') == '' ? 'selected' : '' }}>
+                All Categories
+            </option>
+            @foreach($categories as $cat)
+            <option value="{{ $cat }}" {{ request('category') == $cat ? 'selected' : '' }}>
+                {{ $cat }}
+            </option>
+            @endforeach
+        </select>
+
+        <select name="sort" class="px-3 py-2 border rounded flex-shrink-0 flex-grow-0 w-48">
+            <option value="" {{ request('sort') == '' ? 'selected' : '' }}>Sort by</option>
+            <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Price: Low to High</option>
+            <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Price: High to Low</option>
+        </select>
+
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 whitespace-nowrap">
+            Apply
+        </button>
+    </form>
+
     <h3 class="font-bold text-blue-700 ">Listing our Products</h3>
     <hr class="mb-3">
     <div class="row">

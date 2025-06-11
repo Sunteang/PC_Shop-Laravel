@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class GetAccessary extends Model
 {
-    protected $table = 'accessary';
+    protected $table = 'tblaccessary';
     protected $primaryKey = 'id';
     protected $fillable = [
         'name',
         'description',
         'price',
         'image',
+        'category',
     ];
     use HasFactory;
 }

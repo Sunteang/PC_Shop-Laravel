@@ -55,7 +55,7 @@
                         that the customer will be satisfied with us.
                     </h5>
                     <div class="d-flex justify-center">
-                        <a href="">
+                        <a href="{{ route('repairservice') }}">
                             <button type="button" class="text-gray-700 mt-4 bg-white focus:ring-4 focus:ring-blue-300 rounded-lg text-md px-4 py-2.5 me-2 font-bold" style="letter-spacing: 1.5px;">
                                 <h6 class="mb-0 pb-0.5">Get Service</h6>
                             </button>

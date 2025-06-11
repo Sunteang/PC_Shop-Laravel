@@ -15,10 +15,37 @@ class GetComputerController extends Controller
         $this->computer = new GetComputer();
     }
 
-    public function getcomputer()
+    public function getcomputer(Request $request)
     {
-        $response['computer'] = $this->computer->all();
-        return view('frontend.getcomputer')->with($response);
+        $query = GetComputer::query();
+
+        // Search by keyword
+        if ($request->has('search') && $request->search !== null) {
+            $query->where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('description', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter by category
+        if ($request->has('category') && $request->category !== null) {
+            $query->where('category', $request->category);
+        }
+
+        // Sort
+        if ($request->has('sort')) {
+            if ($request->sort === 'price_asc') {
+                $query->orderBy('price', 'asc');
+            } elseif ($request->sort === 'price_desc') {
+                $query->orderBy('price', 'desc');
+            }
+        }
+
+        // Pagination
+        $computers = $query->paginate(12); // 12 per page
+
+        // Get distinct categories for filter dropdown
+        $categories = GetComputer::select('category')->distinct()->pluck('category');
+
+        return view('frontend.getcomputer', compact('computers', 'categories'));
     }
 
     public function store(Request $request)

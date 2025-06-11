@@ -11,6 +11,8 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    protected $table = 'tbluser';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -20,7 +22,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role'
+        'role',
+        'phone',
+        'address',
+        'profile_image',
     ];
 
     /**
