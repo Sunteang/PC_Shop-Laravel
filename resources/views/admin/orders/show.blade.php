@@ -52,7 +52,7 @@
                         <th class="px-4 py-3">Type</th>
                         <th class="px-4 py-3">Product</th>
                         <th class="px-4 py-3">Price</th>
-                        <th class="px-4 py-3">Qty</th>
+                        <th class="px-4 py-3">Quantity</th>
                         <th class="px-4 py-3">Subtotal</th>
                     </tr>
                 </thead>

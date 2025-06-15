@@ -51,7 +51,7 @@ class ComputerController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:tblcomputer,name',
             'description' => 'nullable|string',
             'category' => 'required|string|in:Laptop,Desktop,Monitor,Gaming,Other',
             'price' => 'required|string',
@@ -109,5 +109,17 @@ class ComputerController extends Controller
 
         $computer->delete();
         return redirect('dashboard-admin/computer')->with('success', 'Computer deleted successfully');
+    }
+
+    /**
+     * Check if a computer name already exists.
+     */
+    public function checkName(Request $request)
+    {
+        $name = $request->query('name');
+
+        $exists = Computer::where('name', $name)->exists();
+
+        return response()->json(['exists' => $exists]);
     }
 }

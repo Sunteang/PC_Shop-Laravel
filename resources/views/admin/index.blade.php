@@ -57,10 +57,29 @@
 
                 <form method="POST" action="{{ route('computer.store') }}">
                     @csrf
+                    @if ($errors->any())
+                    <div class="mb-4 p-3 rounded bg-red-100 text-red-700">
+                        <ul class="list-disc list-inside">
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="md:col-span-2">
                             <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                            <input type="text" name="name" id="name" required class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                value="{{ old('name') }}"
+                                required
+                                class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 @error('name') border-red-500 @enderror">
+                            @error('name')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="md:col-span-2">
                             <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
@@ -186,6 +205,80 @@
                             modal.addEventListener('click', (e) => {
                                 if (e.target === modal) {
                                     modal.classList.add('hidden');
+                                }
+                            });
+                        });
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const nameInput = document.getElementById('name');
+                            const submitBtn = document.querySelector('form button[type="submit"]');
+                            let toastTimeout;
+
+                            // Create toast div
+                            function showToast(message) {
+                                clearTimeout(toastTimeout);
+
+                                let toast = document.getElementById('toast');
+                                if (!toast) {
+                                    toast = document.createElement('div');
+                                    toast.id = 'toast';
+                                    toast.style.position = 'fixed';
+                                    toast.style.bottom = '20px';
+                                    toast.style.right = '20px';
+                                    toast.style.padding = '10px 20px';
+                                    toast.style.backgroundColor = 'rgba(220, 38, 38, 0.9)'; // red
+                                    toast.style.color = 'white';
+                                    toast.style.borderRadius = '5px';
+                                    toast.style.fontWeight = 'bold';
+                                    toast.style.zIndex = '9999';
+                                    document.body.appendChild(toast);
+                                }
+                                toast.textContent = message;
+                                toast.style.display = 'block';
+
+                                toastTimeout = setTimeout(() => {
+                                    toast.style.display = 'none';
+                                }, 3000);
+                            }
+
+                            // Check name existence via AJAX
+                            async function checkNameExists(name) {
+                                if (!name.trim()) return false;
+                                try {
+                                    const response = await fetch(`{{ route('computer.checkName') }}?name=${encodeURIComponent(name)}`);
+                                    const data = await response.json();
+                                    return data.exists;
+                                } catch (error) {
+                                    console.error('Error checking name:', error);
+                                    return false;
+                                }
+                            }
+
+                            // Validate name on input change or blur
+                            nameInput.addEventListener('input', async () => {
+                                const name = nameInput.value;
+
+                                const exists = await checkNameExists(name);
+                                if (exists) {
+                                    submitBtn.disabled = true;
+                                    showToast('This name already exists. Please choose another.');
+                                } else {
+                                    submitBtn.disabled = false;
+                                }
+                            });
+
+                            // Also validate on form submit just in case
+                            const form = nameInput.closest('form');
+                            form.addEventListener('submit', async (e) => {
+                                e.preventDefault();
+                                const name = nameInput.value;
+                                const exists = await checkNameExists(name);
+                                if (exists) {
+                                    showToast('Cannot submit. The name already exists.');
+                                    submitBtn.disabled = true;
+                                    return false;
+                                } else {
+                                    submitBtn.disabled = false;
+                                    form.submit();
                                 }
                             });
                         });

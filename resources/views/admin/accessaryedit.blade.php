@@ -7,7 +7,7 @@
             @csrf
             @method("PATCH")
             <div class="">
-                <h4 class="flex justify-center mb-4 text-blue-800">Edit Accessary Information</h4>
+                <h4 class="flex justify-center mb-4 text-blue-800">Edit Accessory Information</h4>
                 <div class="mb-3">
                     <label class="block text-gray-900 mb-2 ms-2 font-medium">Name</label>
                     <input type="text" name="name"

@@ -59,20 +59,12 @@
         </tbody>
     </table>
 
-    <!-- Checkout Form -->
-    <form action="{{ route('checkout') }}" method="POST" class="mt-4 border p-4 rounded bg-light">
-        @csrf
-        <h5 class="fw-bold text-primary">🧾 Checkout Info</h5>
-        <div class="mb-3">
-            <label for="customer_name" class="form-label">Username</label>
-            <input type="text" name="customer_name" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="phone_number" class="form-label">Phone</label>
-            <input type="text" name="phone_number" class="form-control" required>
-        </div>
-        <button type="submit" class="btn btn-primary w-100">✔️ Place Order</button>
-    </form>
+    <!-- Checkout Process -->
+    <div class="text-end my-4 ">
+        <a href="{{ route('checkout.step1') }}" class="btn btn-primary w-100">
+            Proceed to Checkout
+        </a>
+    </div>
     @else
     <p class="alert alert-info mb-8" style="margin-bottom: 150px;">Your cart is empty.</p>
     @endif

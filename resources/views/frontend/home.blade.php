@@ -94,8 +94,8 @@
                     <i class="fa-solid fa-keyboard"></i>
                 </div>
             </div>
-            <h4 class="mt-3 font-semibold text-center">Sell Accessary</h4>
-            <p class="font-semibold text-gray-600 mt-2 text-center">Our shop also sell a lot of accessary of any tech. We have many things that cutosmers. We also provide for free if any customer buy computer from our shop.</p>
+            <h4 class="mt-3 font-semibold text-center">Sell Accessory</h4>
+            <p class="font-semibold text-gray-600 mt-2 text-center">Our shop also sell a lot of accessory of any tech. We have many things that cutosmers. We also provide for free if any customer buy computer from our shop.</p>
         </div>
         <div class="feature col">
             <div class="d-flex justify-center">
@@ -104,7 +104,7 @@
                 </div>
             </div>
             <h4 class="mt-3 font-semibold text-center">Repair Service</h4>
-            <p class="font-semibold text-gray-600 mt-2 text-center">Not only selling computer and accessary of texh, we also have the repair service for computer, phone for the customers. We will make the customers feel safety.</p>
+            <p class="font-semibold text-gray-600 mt-2 text-center">Not only selling computer and accessory of texh, we also have the repair service for computer, phone for the customers. We will make the customers feel safety.</p>
         </div>
     </div>
 </div>

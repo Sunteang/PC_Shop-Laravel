@@ -191,7 +191,7 @@
                             <a href="{{ route('computer.index') }}" class="block py-2 px-2 rounded text-gray-300 no-underline">Computer</a>
                         </li>
                         <li>
-                            <a href="{{url('/getaccessary')}}" class="block py-2 px-2 rounded text-gray-300 no-underline">Accessary</a>
+                            <a href="{{url('/getaccessary')}}" class="block py-2 px-2 rounded text-gray-300 no-underline">Accessory</a>
                         </li>
                         <li>
                             <a href="{{ route('repairservice') }}" class="block py-2 px-2 rounded text-gray-300 no-underline">Repair Service</a>
@@ -241,7 +241,7 @@
                         </div>
                     </a>
                     <h3 class="mb-0 mt-1.5 font-bold text-white" style="letter-spacing: 3px;">PCSHOP</h3>
-                    <p class="text-white mt-2 ms-4" style="letter-spacing: 3px;">© 2025</p>
+                    <p class="text-white mt-2 ms-4" style="letter-spacing: 3px;">© 2024</p>
                 </div>
 
                 <div class="col col-md-4">
@@ -249,7 +249,7 @@
                     <ul class="nav flex-column">
                         <li class="nav-item mb-2"><a href="{{ url('/home') }}" class="nav-link p-0 text-white">Home</a></li>
                         <li class="nav-item mb-2"><a href="{{ route('computer.index') }}" class="nav-link p-0 text-white">Computer</a></li>
-                        <li class="nav-item mb-2"><a href="{{ url('/getaccessary') }}" class="nav-link p-0 text-white">Accessary</a></li>
+                        <li class="nav-item mb-2"><a href="{{ url('/getaccessary') }}" class="nav-link p-0 text-white">Accessory</a></li>
                         <li class="nav-item mb-2"><a href="{{ route('repairservice') }}" class="nav-link p-0 text-white">Service</a></li>
                         <li class="nav-item mb-2"><a href="{{ url('/contact') }}" class="nav-link p-0 text-white">Contact Us</a></li>
                     </ul>

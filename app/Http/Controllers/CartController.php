@@ -133,19 +133,18 @@ class CartController extends Controller
             $productDetails .= "------------------------------\n";
         }
 
+        // 🧾 Create Order
         $order = Order::create([
             'user_id' => $userId,
             'customer_name' => $request->input('customer_name'),
             'phone_number' => $request->input('phone_number'),
+            'shipping_address' => $request->input('shipping_address'),
+            'payment_method' => $request->input('payment_method'),
             'order_details' => '',
             'total' => $total,
         ]);
 
         foreach ($cartItems as $item) {
-            $product = $item->product_type === 'computer'
-                ? \App\Models\Computer::find($item->product_id)
-                : \App\Models\Accessary::find($item->product_id);
-
             OrderItem::create([
                 'order_id' => $order->id,
                 'item_type' => $item->product_type,
@@ -155,7 +154,7 @@ class CartController extends Controller
             ]);
         }
 
-        // ✅ SEND TO TELEGRAM
+        // ✅ SEND TELEGRAM MESSAGE
         $token = env('TELEGRAM_BOT_TOKEN');
         $chat_id = env('CHAT_ID');
 
@@ -164,21 +163,25 @@ class CartController extends Controller
         $message .= $productDetails;
         $message .= "👤 <b>Customer:</b> " . $request->input('customer_name') . "\n";
         $message .= "📞 <b>Phone:</b> " . $request->input('phone_number') . "\n";
+        $message .= "📦 <b>Shipping:</b> " . $request->input('shipping_address') . "\n";
+        $message .= "💳 <b>Payment:</b> " . $request->input('payment_method') . "\n";
         $message .= "💰 <b>Total:</b> \${$total}";
 
-        $url = "https://api.telegram.org/bot$token/sendMessage";
-
-        $data = [
+        file_get_contents("https://api.telegram.org/bot$token/sendMessage?" . http_build_query([
             'chat_id' => $chat_id,
             'text' => $message,
             'parse_mode' => 'HTML',
-        ];
+        ]));
 
-        file_get_contents($url . '?' . http_build_query($data));
-
-        // ✅ CLEAR CART
+        // 🧹 Clear cart
         Cart::where('user_id', $userId)->delete();
 
-        return redirect()->route('cart.index')->with('success', 'Order placed and sent to Telegram!');
+        return redirect()->route('cart.confirmation', ['order' => $order->id]);
+    }
+
+    public function orderConfirmation($orderId)
+    {
+        $order = Order::with('items')->findOrFail($orderId);
+        return view('cart.confirmation', compact('order'));
     }
 }

@@ -29,9 +29,16 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order = Order::with(['user', 'items'])->findOrFail($id);
+        $order = Order::with([
+            'user',
+            'items',
+            'items.computer',
+            'items.accessary'
+        ])->findOrFail($id);
+
         return view('admin.orders.show', compact('order'));
     }
+
 
     public function updateStatus(Request $request, $id)
     {

@@ -52,7 +52,7 @@ class AccessaryController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:tblaccessary,name',
             'description' => 'nullable|string',
             'category' => 'required|string|in:Mouse,Keyboard,Power Adapter,USB,MousePad,Other',
             'price' => 'required|string',
@@ -102,5 +102,16 @@ class AccessaryController extends Controller
 
         $accessary->delete();
         return redirect('/dashboard-admin/accessary');
+    }
+    /**
+     * Check if an accessary name already exists.
+     */
+    public function checkName(Request $request)
+    {
+        $name = $request->query('name');
+
+        $exists = Accessary::where('name', $name)->exists();
+
+        return response()->json(['exists' => $exists]);
     }
 }

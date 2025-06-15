@@ -20,9 +20,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\CouponController;
-use App\Http\Controllers\ContentController;
-use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\CheckoutController;
+use App\Models\Accessary;
+
 //==================================
 
 
@@ -138,7 +138,21 @@ Route::middleware(['auth'])->group(function () {
 
 // cart icon route
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::get('/cart/confirmation/{order}', [CartController::class, 'orderConfirmation'])->name('cart.confirmation');
 
+//==================================
+//Checkout Step Routes (not confirmed yet)
+//==================================
+Route::middleware('auth')->prefix('checkout')->group(function () {
+    Route::get('/checkout/step1', [CheckoutController::class, 'showStep1'])->name('checkout.step1');
+    Route::post('/checkout/step1', [CheckoutController::class, 'processStep1'])->name('checkout.step1.post');
+
+    Route::get('/checkout/step2', [CheckoutController::class, 'showStep2'])->name('checkout.step2');
+    Route::post('/checkout/step2', [CheckoutController::class, 'processStep2'])->name('checkout.step2.post');
+
+    Route::get('/checkout/review', [CheckoutController::class, 'showReview'])->name('checkout.review');
+    Route::post('/checkout/complete', [CheckoutController::class, 'completeOrder'])->name('checkout.complete');
+});
 
 
 // =========> ADMIN DASHBOARD MANAGEMENT ROUTES <=========
@@ -159,10 +173,17 @@ Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('adm
 Route::get('/dashboard-admin', [DashboardController::class, 'index'])->name('dashboard');
 
 //==================================
+// Admin Computer Management Routes
+//==================================
+Route::get('/computer/check-name', [ComputerController::class, 'checkName'])->name('computer.checkName');
+
+//==================================
 //Admin accessary routes
 //==================================
 Route::resource('/dashboard-admin/accessary', AccessaryController::class);
 Route::get('/search', [AccessaryController::class, 'search']);
+
+Route::get('/accessary/check-name', [AccessaryController::class, 'checkName'])->name('accessary.checkName');
 
 //==================================
 // Admin Repair Request Management
